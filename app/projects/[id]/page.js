@@ -45,14 +45,14 @@ const ProjectDetailsPage = ({ params }) => {
 
   if (!project) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#f3e8ff] to-[#e0ccff] flex items-center justify-center">
+      <div className="min-h-screen bg-[var(--color-bg-secondary)] flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-[#4b1662] mb-4">
+          <h1 className="text-2xl font-bold text-[var(--color-text-primary)] mb-4">
             Project Not Found
           </h1>
           <button
             onClick={() => router.push("/")}
-            className="px-6 py-3 bg-[#4b1662] text-white rounded-lg hover:scale-105 transition-transform"
+            className="px-6 py-3 bg-[var(--color-accent)] text-[var(--color-bg-primary)] rounded-lg hover:scale-105 transition-transform"
           >
             Back to Home
           </button>
@@ -107,14 +107,14 @@ const ProjectDetailsPage = ({ params }) => {
 
   return (
     <motion.div
-      className="min-h-screen bg-gradient-to-br from-[#f3e8ff] via-[#e0ccff] to-[#f3e8ff]"
+      className="min-h-screen bg-[var(--color-bg-secondary)]"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
     >
       {/* Animated Background Elements */}
       <motion.div
-        className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-purple-200/20 to-yellow-200/20 rounded-full blur-3xl"
+        className="absolute top-0 right-0 w-96 h-96 bg-[var(--color-accent)]/5 rounded-full blur-3xl"
         animate={{
           x: [0, -50, 0],
           y: [0, 50, 0],
@@ -127,7 +127,7 @@ const ProjectDetailsPage = ({ params }) => {
         {/* Back Button */}
         <motion.button
           onClick={() => router.back()}
-          className="mb-8 flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm text-[#4b1662] rounded-lg hover:bg-white transition-all duration-300 shadow-lg"
+          className="mb-8 flex items-center gap-2 px-4 py-2 bg-[var(--color-bg-card)] backdrop-blur-sm text-[var(--color-text-primary)] rounded-lg hover:bg-[var(--color-bg-card-hover)] transition-all duration-300 shadow-lg border border-[var(--color-border)]"
           whileHover={{ scale: 1.05, x: -5 }}
           whileTap={{ scale: 0.95 }}
           initial={{ opacity: 0, x: -20 }}
@@ -173,8 +173,8 @@ const ProjectDetailsPage = ({ params }) => {
                     onClick={() => setActiveImageIndex(index)}
                     className={`relative w-20 h-12 rounded-lg overflow-hidden border-2 transition-all duration-300 ${
                       activeImageIndex === index
-                        ? "border-[#ffbd59] shadow-lg"
-                        : "border-white/50 hover:border-[#4b1662]/50"
+                        ? "border-[var(--color-accent)] shadow-lg"
+                        : "border-[var(--color-border)] hover:border-[var(--color-accent)]/50"
                     }`}
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
@@ -196,18 +196,18 @@ const ProjectDetailsPage = ({ params }) => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
               >
-                <h3 className="text-xl font-bold text-[#4b1662] mb-4">
+                <h3 className="text-xl font-bold text-[var(--color-text-primary)] mb-4">
                   Tech Stack
                 </h3>
                 <div className="flex flex-wrap gap-3">
                   {project.techStack.map((tech, index) => (
                     <motion.div
                       key={index}
-                      className="flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-lg border border-[#4b1662]/20"
+                      className="flex items-center gap-2 px-4 py-2 bg-[var(--color-bg-card)] backdrop-blur-sm rounded-lg border border-[var(--color-border)]"
                       whileHover={{
                         scale: 1.05,
-                        backgroundColor: "#4b1662",
-                        color: "white",
+                        backgroundColor: "var(--color-accent)",
+                        color: "var(--color-bg-primary)",
                       }}
                       whileTap={{ scale: 0.95 }}
                       initial={{ opacity: 0, scale: 0.8 }}
@@ -215,7 +215,7 @@ const ProjectDetailsPage = ({ params }) => {
                       transition={{ duration: 0.3 }}
                     >
                       {getTechIcon(tech)}
-                      <span className="font-medium">{tech}</span>
+                      <span className="font-medium text-[var(--color-text-primary)]">{tech}</span>
                     </motion.div>
                   ))}
                 </div>
@@ -227,7 +227,7 @@ const ProjectDetailsPage = ({ params }) => {
               {/* Title and Category */}
               <div>
                 <motion.h1
-                  className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#4b1662] mb-6"
+                  className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[var(--color-text-primary)] mb-6"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.4 }}
@@ -240,10 +240,10 @@ const ProjectDetailsPage = ({ params }) => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.6, delay: 0.3 }}
                 >
-                  <span className="px-3 py-1 bg-[#4b1662] text-white text-sm rounded-full">
+                  <span className="px-3 py-1 bg-[var(--color-accent)] text-[var(--color-bg-primary)] text-sm rounded-full">
                     {project.category}
                   </span>
-                  <div className="flex items-center gap-1 text-[#4b1662]/70">
+                  <div className="flex items-center gap-1 text-[var(--color-text-secondary)]">
                     <User className="w-4 h-4" />
                     <span className="text-sm">{project.developer}</span>
                   </div>
@@ -257,10 +257,10 @@ const ProjectDetailsPage = ({ params }) => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.5 }}
               >
-                <h2 className="text-xl font-bold text-[#4b1662] mb-3">
+                <h2 className="text-xl font-bold text-[var(--color-text-primary)] mb-3">
                   About This Project
                 </h2>
-                <p className="text-[#4b1662]/80 leading-relaxed text-lg">
+                <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg">
                   {project.description}
                 </p>
               </motion.div>
@@ -276,7 +276,7 @@ const ProjectDetailsPage = ({ params }) => {
                   href={project.liveLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-[#ffbd59] to-[#ff9a59] text-[#4b1662] font-bold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="flex items-center justify-center gap-3 px-8 py-4 bg-[var(--color-accent)] text-[var(--color-bg-primary)] font-bold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -288,7 +288,7 @@ const ProjectDetailsPage = ({ params }) => {
                   href={project.githubLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 px-8 py-4 bg-[#4b1662] text-white font-bold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="flex items-center justify-center gap-3 px-8 py-4 bg-[var(--color-bg-surface)] border border-[var(--color-border)] text-[var(--color-text-primary)] font-bold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -307,55 +307,55 @@ const ProjectDetailsPage = ({ params }) => {
             transition={{ duration: 0.8, delay: 1 }}
           >
             <motion.div
-              className="bg-white/80 backdrop-blur-sm p-6 rounded-xl shadow-lg"
+              className="bg-[var(--color-bg-card)] backdrop-blur-sm p-6 rounded-xl shadow-lg border border-[var(--color-border)]"
               whileHover={{ y: -5, scale: 1.02 }}
               transition={{ duration: 0.3 }}
             >
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-gradient-to-r from-[#4b1662] to-[#6b2c91] rounded-lg flex items-center justify-center">
-                  <Code className="w-6 h-6 text-white" />
+                <div className="w-12 h-12 bg-[var(--color-bg-surface)] border border-[var(--color-border)] rounded-lg flex items-center justify-center">
+                  <Code className="w-6 h-6 text-[var(--color-text-primary)]" />
                 </div>
-                <h3 className="text-lg font-bold text-[#4b1662]">Clean Code</h3>
+                <h3 className="text-lg font-bold text-[var(--color-text-primary)]">Clean Code</h3>
               </div>
-              <p className="text-[#4b1662]/70">
+              <p className="text-[var(--color-text-secondary)]">
                 Well-structured, maintainable code following best practices and
                 modern development standards.
               </p>
             </motion.div>
 
             <motion.div
-              className="bg-white/80 backdrop-blur-sm p-6 rounded-xl shadow-lg"
+              className="bg-[var(--color-bg-card)] backdrop-blur-sm p-6 rounded-xl shadow-lg border border-[var(--color-border)]"
               whileHover={{ y: -5, scale: 1.02 }}
               transition={{ duration: 0.3 }}
             >
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-gradient-to-r from-[#ffbd59] to-[#ff9a59] rounded-lg flex items-center justify-center">
-                  <Palette className="w-6 h-6 text-white" />
+                <div className="w-12 h-12 bg-[var(--color-bg-surface)] border border-[var(--color-border)] rounded-lg flex items-center justify-center">
+                  <Palette className="w-6 h-6 text-[var(--color-text-primary)]" />
                 </div>
-                <h3 className="text-lg font-bold text-[#4b1662]">
+                <h3 className="text-lg font-bold text-[var(--color-text-primary)]">
                   Responsive Design
                 </h3>
               </div>
-              <p className="text-[#4b1662]/70">
+              <p className="text-[var(--color-text-secondary)]">
                 Fully responsive design that works seamlessly across all devices
                 and screen sizes.
               </p>
             </motion.div>
 
             <motion.div
-              className="bg-white/80 backdrop-blur-sm p-6 rounded-xl shadow-lg md:col-span-2 lg:col-span-1"
+              className="bg-[var(--color-bg-card)] backdrop-blur-sm p-6 rounded-xl shadow-lg border border-[var(--color-border)] md:col-span-2 lg:col-span-1"
               whileHover={{ y: -5, scale: 1.02 }}
               transition={{ duration: 0.3 }}
             >
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-gradient-to-r from-[#4b1662] to-[#ffbd59] rounded-lg flex items-center justify-center">
-                  <Star className="w-6 h-6 text-white" />
+                <div className="w-12 h-12 bg-[var(--color-bg-surface)] border border-[var(--color-border)] rounded-lg flex items-center justify-center">
+                  <Star className="w-6 h-6 text-[var(--color-text-primary)]" />
                 </div>
-                <h3 className="text-lg font-bold text-[#4b1662]">
+                <h3 className="text-lg font-bold text-[var(--color-text-primary)]">
                   Modern Features
                 </h3>
               </div>
-              <p className="text-[#4b1662]/70">
+              <p className="text-[var(--color-text-secondary)]">
                 Built with the latest technologies and modern development
                 practices for optimal performance.
               </p>

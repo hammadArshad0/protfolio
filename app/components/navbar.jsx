@@ -3,6 +3,7 @@ import { useEffect, useState, useCallback, useRef } from "react";
 import { Menu, X, Home, User, Mail, Send, Laptop, FolderKanban } from "lucide-react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
+import ThemeToggle from "./ThemeToggle";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -174,12 +175,12 @@ const Navbar = () => {
       )}
       
       <nav
-        className={`w-full h-20 flex justify-between items-center px-6 md:px-12 fixed top-0 z-50 transition-all duration-300 ${
+        className={`w-full h-16 sm:h-[72px] md:h-20 flex justify-between items-center px-4 sm:px-6 md:px-8 lg:px-12 fixed top-0 z-50 transition-all duration-300 ${
           isScrollingDown ? "-translate-y-full" : "translate-y-0"
         } ${
           scrolled 
-            ? "bg-[#4b1662]/80 backdrop-blur-md text-black shadow-lg" 
-            : "bg-[#4b1662]/50 backdrop-blur-md text-black"
+            ? "bg-[var(--color-bg-navbar)] backdrop-blur-md text-[var(--color-text-primary)] shadow-lg" 
+            : "bg-[var(--color-bg-navbar)] backdrop-blur-md text-[var(--color-text-primary)]"
         }`}
         role="navigation"
         aria-label="Main navigation"
@@ -187,7 +188,7 @@ const Navbar = () => {
         {/* Logo */}
         <div
           onClick={handleLogoClick}
-          className="flex items-center gap-2 text-[#ffbd59] font-bold text-2xl lg:text-3xl cursor-pointer transition-transform hover:scale-105 focus:outline-none rounded-lg p-1"
+          className="flex items-center gap-1.5 sm:gap-2 text-[var(--color-accent)] font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl cursor-pointer transition-transform hover:scale-105 focus:outline-none rounded-lg p-1"
           tabIndex={0}
           role="button"
           aria-label="Go to homepage"
@@ -198,13 +199,13 @@ const Navbar = () => {
             }
           }}
         >
-          <Laptop className="w-8 h-10" aria-hidden="true" />
-          <span>Ali husnain</span>
+          <Laptop className="w-6 h-7 sm:w-7 sm:h-8 md:w-8 md:h-10 flex-shrink-0" aria-hidden="true" />
+          <span>Hammad Arshad</span>
         </div>
 
         {/* Desktop Menu */}
         <ul
-          className={`hidden lg:flex gap-8 items-center px-8 py-2 rounded-3xl backdrop-blur-md transition bg-white/10 text-white`}
+          className={`hidden lg:flex gap-4 xl:gap-6 2xl:gap-8 items-center px-4 xl:px-6 2xl:px-8 py-1.5 xl:py-2 rounded-2xl xl:rounded-3xl backdrop-blur-md transition bg-[var(--color-bg-surface)] border border-[var(--color-border)] text-[var(--color-text-primary)]`}
           role="menubar"
           aria-label="Desktop navigation menu"
         >
@@ -216,85 +217,91 @@ const Navbar = () => {
                   e.preventDefault();
                   handleLinkClick(link.name, link.href);
                 }}
-                className={`flex items-center gap-2 px-3 py-1 rounded-full cursor-pointer transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#ffbd59] focus:ring-opacity-50 ${
+                className={`flex items-center gap-1.5 xl:gap-2 px-2.5 xl:px-3 py-1 rounded-full cursor-pointer transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:ring-opacity-50 text-sm xl:text-base ${
                   active === link.name
-                    ? "bg-[#ffbd59] text-black scale-105"
-                    : "hover:text-[#ffbd59] hover:scale-105"
+                    ? "bg-[var(--color-accent)] text-[var(--color-bg-primary)] scale-105"
+                    : "hover:text-[var(--color-accent)] hover:scale-105"
                 }`}
                 role="menuitem"
                 aria-current={active === link.name ? "page" : undefined}
               >
-                <span aria-hidden="true">{link.icon}</span>
-                <span>{link.name}</span>
+                <span aria-hidden="true" className="w-4 h-4 xl:w-[18px] xl:h-[18px] flex-shrink-0">{link.icon}</span>
+                <span className="whitespace-nowrap">{link.name}</span>
               </Link>
             </li>
           ))}
         </ul>
 
-        {/* CTA Button */}
-        <button
-          onClick={handleContactClick}
-          className="hidden lg:flex items-center gap-2 px-5 py-2 rounded-full bg-[#ffbd59] text-[#4b1662] font-semibold shadow-lg hover:shadow-[#ffbd59]/50 hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#ffbd59] focus:ring-opacity-75 cursor-pointer"
-          aria-label="Contact me"
-        >
-          <Send size={18} aria-hidden="true" />
-          <span>Get in touch</span>
-        </button>
+        {/* Desktop Right Side - Theme Toggle and CTA Button */}
+        <div className="hidden lg:flex items-center gap-3 xl:gap-4">
+          <ThemeToggle />
+          <button
+            onClick={handleContactClick}
+            className="flex items-center gap-1.5 xl:gap-2 px-4 xl:px-5 py-1.5 xl:py-2 rounded-full bg-[var(--color-accent)] text-[var(--color-bg-primary)] font-semibold shadow-lg hover:shadow-[var(--color-accent)]/20 hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:ring-opacity-30 cursor-pointer text-sm xl:text-base whitespace-nowrap"
+            aria-label="Contact me"
+          >
+            <Send size={16} className="xl:w-[18px] xl:h-[18px] flex-shrink-0" aria-hidden="true" />
+            <span>Get in touch</span>
+          </button>
+        </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          className="lg:hidden cursor-pointer p-2 rounded-lg transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-[#ffbd59] focus:ring-opacity-50"
-          onClick={() => setIsOpen(true)}
-          aria-label={isOpen ? "Close menu" : "Open menu"}
-          aria-expanded={isOpen}
-          aria-controls="mobile-sidebar"
-        >
-          <Menu
-            size={28}
-            className={scrolled ? "text-white" : "text-white"}
-            aria-hidden="true"
-          />
-        </button>
+        {/* Mobile Menu Button and Theme Toggle */}
+        <div className="lg:hidden flex items-center gap-1.5 sm:gap-2">
+          <ThemeToggle />
+          <button
+            className="cursor-pointer p-1.5 sm:p-2 rounded-lg transition-colors hover:bg-[var(--color-bg-card-hover)] focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:ring-opacity-30 active:bg-[var(--color-bg-card-hover)]"
+            onClick={() => setIsOpen(true)}
+            aria-label={isOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isOpen}
+            aria-controls="mobile-sidebar"
+          >
+            <Menu
+              size={24}
+              className="sm:w-7 sm:h-7 text-[var(--color-text-primary)]"
+              aria-hidden="true"
+            />
+          </button>
+        </div>
 
         {/* Mobile Sidebar */}
         <aside
           ref={sidebarRef}
           id="mobile-sidebar"
-          className={`fixed top-0 right-0 h-[100vh] w-64 bg-[#502865] text-white transform transition-transform duration-300 z-50 ${
+          className={`fixed top-0 right-0 h-[100vh] w-[280px] sm:w-72 bg-[var(--color-bg-secondary)] text-[var(--color-text-primary)] transform transition-transform duration-300 z-50 border-l border-[var(--color-border)] ${
             isOpen ? "translate-x-0" : "translate-x-full"
           } lg:hidden`}
           role="dialog"
           aria-modal="true"
           aria-labelledby="mobile-menu-title"
         >
-          <div className="flex justify-between items-center px-6 py-5 border-b border-white/20">
-            <h2 id="mobile-menu-title" className="text-lg font-semibold sr-only">
+          <div className="flex justify-between items-center px-4 sm:px-6 py-4 sm:py-5 border-b border-[var(--color-border)]">
+            <h2 id="mobile-menu-title" className="text-base sm:text-lg font-semibold sr-only">
               Mobile Navigation Menu
             </h2>
             <button
               onClick={() => setIsOpen(false)}
-              className="cursor-pointer p-2 rounded-lg transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-[#ffbd59] focus:ring-opacity-50"
+              className="cursor-pointer p-2 rounded-lg transition-colors hover:bg-[var(--color-bg-tertiary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:ring-opacity-50 active:bg-[var(--color-bg-tertiary)]"
               aria-label="Close menu"
             >
-              <X size={26} aria-hidden="true" />
+              <X size={24} className="sm:w-7 sm:h-7 text-[var(--color-text-primary)]" aria-hidden="true" />
             </button>
           </div>
           
           <nav role="navigation" aria-label="Mobile navigation">
-            <ul className="flex flex-col gap-6 mt-6 px-6" role="menu">
+            <ul className="flex flex-col gap-4 sm:gap-5 md:gap-6 mt-4 sm:mt-6 px-4 sm:px-6" role="menu">
               {links.map((link) => (
                 <li key={link.name} role="none">
                   <button
                     onClick={() => handleLinkClick(link.name, link.href)}
-                    className={`w-full flex items-center gap-3 px-4 py-2 rounded-full cursor-pointer transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#ffbd59] focus:ring-opacity-50 ${
+                    className={`w-full flex items-center gap-3 px-4 py-2.5 sm:py-3 rounded-full cursor-pointer transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:ring-opacity-30 text-sm sm:text-base active:scale-95 ${
                       active === link.name
-                        ? "bg-[#ffbd59] text-black"
-                        : "hover:text-[#ffbd59] hover:bg-white/10"
+                        ? "bg-[var(--color-accent)] text-[var(--color-bg-primary)]"
+                        : "hover:text-[var(--color-accent)] hover:bg-[var(--color-bg-tertiary)]"
                     }`}
                     role="menuitem"
                     aria-current={active === link.name ? "page" : undefined}
                   >
-                    <span aria-hidden="true">{link.icon}</span>
+                    <span aria-hidden="true" className="w-5 h-5 sm:w-[18px] sm:h-[18px] flex-shrink-0">{link.icon}</span>
                     <span>{link.name}</span>
                   </button>
                 </li>
@@ -302,13 +309,13 @@ const Navbar = () => {
             </ul>
           </nav>
           
-          <div className="px-6 mt-8">
+          <div className="px-4 sm:px-6 mt-6 sm:mt-8">
             <button
               onClick={handleContactClick}
-              className="w-full flex items-center justify-center gap-2 px-5 py-2 rounded-full bg-[#ffbd59] text-[#4b1662] font-semibold shadow-lg hover:shadow-[#ffbd59]/50 hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#ffbd59] focus:ring-opacity-75 cursor-pointer"
+              className="w-full flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 sm:py-3 rounded-full bg-[var(--color-accent)] text-[var(--color-bg-primary)] font-semibold shadow-lg hover:shadow-[var(--color-accent)]/20 hover:scale-105 active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:ring-opacity-30 cursor-pointer text-sm sm:text-base"
               aria-label="Contact me"
             >
-              <Send size={18} aria-hidden="true" />
+              <Send size={18} className="flex-shrink-0" aria-hidden="true" />
               <span>Get in touch</span>
             </button>
           </div>

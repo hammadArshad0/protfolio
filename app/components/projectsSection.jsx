@@ -12,9 +12,9 @@ export const projectsData = [
     description:
       "E-BooksShelf is a responsive React.js web app that lets users search, browse, and preview books using the Google Books API. It features category filters, detailed previews, and external book links, all managed with Context API.",
     techStack: ["React Js", "CSS", "Google Books API"],
-    developer: "Ali Husnain",
+    developer: "Hammad Arshad",
     image: "/project1.png",
-    githubLink: "https://github.com/ali-husnain00/E-library",
+    githubLink: "https://github.com/hammadArshad0",
     liveLink: "https://ebooksshelf.netlify.app/",
     category: "Frontend",
   },
@@ -24,9 +24,9 @@ export const projectsData = [
     description:
       "Ali Mart is an online shopping platform crafted to provide customers with a smooth and enjoyable shopping experience. The website showcases a diverse range of products, intuitive navigation, and secure payment options, ensuring a hassle-free journey from browsing to checkout.",
     techStack: ["React Js", "CSS"],
-    developer: "Ali Husnain",
+    developer: "Hammad Arshad",
     image: "/project3.png",
-    githubLink: "https://github.com/ali-husnain00/ali-mart",
+    githubLink: "https://github.com/hammadArshad0",
     liveLink: "https://alimart.netlify.app/",
     category: "Frontend",
   },
@@ -36,9 +36,9 @@ export const projectsData = [
     description:
       "EvoChat is a full-stack real-time chat application built using the MERN stack (MongoDB, Express.js, React, Node.js) with Socket.io for live messaging. It allows users to sign up, create conversations, send/receive messages instantly, and manage chats in a clean, responsive UI.",
     techStack: ["React Js", "Tailwind CSS", "Node Js", "Express Js", "MongoDB", "Socket.io"],
-    developer: "Ali Husnain",
+    developer: "Hammad Arshad",
     image: "/project4.png",
-    githubLink: "https://github.com/ali-husnain00/EvoChat",
+    githubLink: "https://github.com/hammadArshad0",
     liveLink: "https://evochat1.netlify.app/",
     category: "Fullstack",
   },
@@ -50,7 +50,7 @@ export const projectsData = [
     techStack: ["React Js", "Tailwind CSS", "Node Js", "Express Js", "MongoDB", "Socket.io"],
     developer: "Ali Husnain",
     image: "/project5.png",
-    githubLink: "https://github.com/ali-husnain00/Codask",
+    githubLink: "https://github.com/hammadArshad0/FitZone_Gym_app",
     liveLink: "https://codask.netlify.app/",
     category: "Fullstack",
   },
@@ -60,9 +60,9 @@ export const projectsData = [
     description:
       "Personal portfolio to showcase projects, skills, and contact info, built with Gatsby and content managed via Contentful.",
     techStack: ["Next Js", "Tailwind CSS", "Framer Motion"],
-    developer: "Ali Husnain",
+    developer: "Hammad Arshad",
     image: "/project7.png",
-    githubLink: "https://github.com/ali-husnain00/portfolio",
+    githubLink: "https://github.com/hammadArshad0/portfolio",
     liveLink: "#",
     category: "Frontend",
   },
@@ -71,9 +71,9 @@ export const projectsData = [
     title: "Movies App",
     description: "A modern movie discovery application built with Next.js that fetches real-time data from the TMDB API. The app allows users to explore trending, latest, and top-rated movies with rich details including posters, ratings, genres, and descriptions. It features a responsive design for seamless use across devices, smooth navigation powered by Next.js routing, and optimized performance with server-side rendering.",
     techStack: ["Next Js", "Tailwind CSS", "TMDB API"],
-    developer: "Ali Husnain",
+    developer: "Hammad Arshad",
     image: "/project8.png",
-    githubLink: "https://github.com/ali-husnain00/Movies-Application",
+    githubLink: "https://github.com/hammadArshad0",
     liveLink: "https://ghost-movies-app.vercel.app",
     category: "Frontend",
   },
@@ -82,9 +82,9 @@ export const projectsData = [
     title: "VendorBay",
     description: "VendorBay is a responsive multi-vendor e-commerce platform where users can shop and sellers manage their shops. It features lazy loading and React Suspense for performance, image compression with Sharp, and backend pagination. Admins manage users, sellers, and products with full control.",
     techStack: ["React Js", "CSS", "Node Js", "Express Js", "MongoDB"],
-    developer: "Ali Husnain",
+    developer: "Hammad Arshad",
     image: "/project6.png",
-    githubLink: "https://github.com/ali-husnain00/VendorBay",
+    githubLink: "https://github.com/hammadArshad0",
     liveLink: "https://vendorbay1.netlify.app/",
     category: "Frontend",
   },
@@ -179,35 +179,14 @@ const ProjectsSection = () => {
     },
   };
 
-  const backgroundVariants = {
-    initial: {
-      background: "linear-gradient(135deg, #f3e8ff 0%, #e0ccff 50%, #f3e8ff 100%)",
-    },
-    animate: {
-      background: [
-        "linear-gradient(135deg, #f3e8ff 0%, #e0ccff 50%, #f3e8ff 100%)",
-        "linear-gradient(135deg, #e0ccff 0%, #f3e8ff 50%, #e0ccff 100%)",
-        "linear-gradient(135deg, #f3e8ff 0%, #e0ccff 50%, #f3e8ff 100%)",
-      ],
-      transition: {
-        duration: 10,
-        repeat: Infinity,
-        ease: "easeInOut",
-      },
-    },
-  };
-
   return (
     <motion.section
       id="projects"
-      className="relative overflow-hidden px-8 lg:px-16 py-20"
-      variants={backgroundVariants}
-      initial="initial"
-      animate="animate"
+      className="relative overflow-hidden px-8 lg:px-16 py-24 sm:py-32 bg-[var(--color-bg-secondary)]"
     >
       {/* Animated Background Elements */}
       <motion.div
-        className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-purple-200/30 to-yellow-200/30 rounded-full blur-3xl"
+        className="absolute top-0 left-0 w-96 h-96 bg-[var(--color-accent)]/5 rounded-full blur-3xl"
         animate={{
           x: [0, 100, 0],
           y: [0, -50, 0],
@@ -220,7 +199,7 @@ const ProjectsSection = () => {
         }}
       />
       <motion.div
-        className="absolute bottom-0 right-0 w-80 h-80 bg-gradient-to-tl from-yellow-200/30 to-purple-200/30 rounded-full blur-3xl"
+        className="absolute bottom-0 right-0 w-80 h-80 bg-[var(--color-accent)]/5 rounded-full blur-3xl"
         animate={{
           x: [0, -80, 0],
           y: [0, 30, 0],
@@ -243,22 +222,21 @@ const ProjectsSection = () => {
           className="mb-16"
         >
           <motion.h2
-            className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#4b1662] inline-block relative mb-4"
+            className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[var(--color-text-primary)] inline-block relative mb-4"
             whileHover={{
               scale: 1.05,
-              textShadow: "0px 0px 8px rgba(75, 22, 98, 0.3)",
             }}
           >
             My Projects
             <motion.span
-              className="absolute left-0 -bottom-2 h-1 bg-gradient-to-r from-[#ffbd59] via-[#ff9a59] to-[#ffbd59] rounded-full"
+              className="absolute left-0 -bottom-2 h-1 bg-[var(--color-accent)] rounded-full"
               initial={{ width: 0 }}
               whileInView={{ width: "100%" }}
               transition={{ duration: 1, delay: 0.5 }}
             />
           </motion.h2>
           <motion.p
-            className="text-lg text-[#4b1662]/70 mt-4 max-w-2xl mx-auto"
+            className="text-lg text-[var(--color-text-secondary)] mt-4 max-w-2xl mx-auto"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.8 }}
@@ -284,13 +262,13 @@ const ProjectsSection = () => {
               onClick={() => setActiveCategory(cat)}
               className={`relative px-4 sm:px-6 py-2 sm:py-3 rounded-full font-semibold text-sm sm:text-base transition-all duration-300 overflow-hidden group ${
                 activeCategory === cat
-                  ? "bg-[#4b1662] text-white shadow-lg shadow-[#4b1662]/30"
-                  : "bg-white/80 backdrop-blur-sm text-[#4b1662] hover:bg-white border border-[#4b1662]/20"
+                  ? "bg-[var(--color-accent)] text-[var(--color-bg-primary)] shadow-lg shadow-[var(--color-accent)]/20"
+                  : "bg-[var(--color-bg-card)] backdrop-blur-sm text-[var(--color-text-primary)] hover:bg-[var(--color-bg-card-hover)] border border-[var(--color-border)]"
               }`}
             >
               {/* Hover gradient background */}
               <motion.span
-                className="absolute inset-0 bg-gradient-to-r from-[#ffbd59] to-[#ff9a59] opacity-0 group-hover:opacity-100"
+                className="absolute inset-0 bg-[var(--color-accent)] opacity-0 group-hover:opacity-10"
                 initial={{ x: "-100%" }}
                 whileHover={{ x: 0 }}
                 transition={{ duration: 0.3 }}
@@ -299,7 +277,7 @@ const ProjectsSection = () => {
               {/* Active category background */}
               {activeCategory === cat && (
                 <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-[#4b1662] via-[#6b2c91] to-[#4b1662]"
+                  className="absolute inset-0 bg-[var(--color-accent)]"
                   layoutId="activeCategory"
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 />
@@ -354,20 +332,19 @@ const ProjectsSection = () => {
           >
             <motion.button
               onClick={() => router.push("/projects")}
-              className="relative px-8 py-4 bg-gradient-to-r from-[#ffbd59] to-[#ff9a59] text-[#4b1662] font-bold rounded-full text-lg overflow-hidden group shadow-xl shadow-[#ffbd59]/30"
+              className="relative px-8 py-4 bg-[var(--color-accent)] text-[var(--color-bg-primary)] font-bold rounded-full text-lg overflow-hidden group shadow-xl shadow-[var(--color-accent)]/20"
               whileHover={{
                 scale: 1.05,
-                boxShadow: "0 20px 40px rgba(255, 189, 89, 0.4)",
               }}
               whileTap={{ scale: 0.95 }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
               <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-[#4b1662] to-[#6b2c91] opacity-0 group-hover:opacity-100"
+                className="absolute inset-0 bg-[var(--color-bg-primary)] opacity-0 group-hover:opacity-10"
                 transition={{ duration: 0.3 }}
               />
               <motion.span
-                className="relative z-10 group-hover:text-white transition-colors duration-300"
+                className="relative z-10 group-hover:text-[var(--color-accent)] transition-colors duration-300"
                 animate={{
                   backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
                 }}
@@ -394,7 +371,7 @@ const ProjectsSection = () => {
 
         {/* Floating Elements */}
         <motion.div
-          className="absolute top-20 right-10 w-6 h-6 bg-[#ffbd59] rounded-full opacity-60"
+          className="absolute top-20 right-10 w-6 h-6 bg-[var(--color-accent)] rounded-full opacity-60"
           animate={{
             y: [0, -20, 0],
             scale: [1, 1.2, 1],
@@ -406,7 +383,7 @@ const ProjectsSection = () => {
           }}
         />
         <motion.div
-          className="absolute bottom-20 left-10 w-4 h-4 bg-[#4b1662] rounded-full opacity-40"
+          className="absolute bottom-20 left-10 w-4 h-4 bg-[var(--color-accent)] rounded-full opacity-20"
           animate={{
             y: [0, 15, 0],
             x: [0, 10, 0],
