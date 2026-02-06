@@ -1,16 +1,17 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { Rocket, Layout, Database, Layers, ArrowRight, Sparkles, Info } from "lucide-react";
 import ProjectCard from "./projectCard";
 
+// --- UPDATED PROJECTS DATA ---
 export const projectsData = [
   {
     id: 1,
     title: "E-BooksShelf (E-Library)",
-    description:
-      "E-BooksShelf is a responsive React.js web app that lets users search, browse, and preview books using the Google Books API. It features category filters, detailed previews, and external book links, all managed with Context API.",
+    description: "E-BooksShelf is a responsive React.js web app that lets users search, browse, and preview books using the Google Books API.",
     techStack: ["React Js", "CSS", "Google Books API"],
     developer: "Hammad Arshad",
     image: "/project1.png",
@@ -20,9 +21,8 @@ export const projectsData = [
   },
   {
     id: 2,
-    title: "Ali Mart",
-    description:
-      "Ali Mart is an online shopping platform crafted to provide customers with a smooth and enjoyable shopping experience. The website showcases a diverse range of products, intuitive navigation, and secure payment options, ensuring a hassle-free journey from browsing to checkout.",
+    title: "Safe Mart",
+    description: "Safe is an online shopping platform crafted to provide customers with a smooth and enjoyable shopping experience.",
     techStack: ["React Js", "CSS"],
     developer: "Hammad Arshad",
     image: "/project3.png",
@@ -33,8 +33,7 @@ export const projectsData = [
   {
     id: 3,
     title: "EvoChat",
-    description:
-      "EvoChat is a full-stack real-time chat application built using the MERN stack (MongoDB, Express.js, React, Node.js) with Socket.io for live messaging. It allows users to sign up, create conversations, send/receive messages instantly, and manage chats in a clean, responsive UI.",
+    description: "EvoChat is a full-stack real-time chat application built using the MERN stack with Socket.io for live messaging.",
     techStack: ["React Js", "Tailwind CSS", "Node Js", "Express Js", "MongoDB", "Socket.io"],
     developer: "Hammad Arshad",
     image: "/project4.png",
@@ -44,24 +43,22 @@ export const projectsData = [
   },
   {
     id: 4,
-    title: "Codask",
-    description:
-      "Codask is a real-time collaborative code editor with integrated project and task management. Users can create projects, invite team members, chat in groups, and collaboratively edit code using socket.io. Team leads assign tasks and track project progress seamlessly.",
-    techStack: ["React Js", "Tailwind CSS", "Node Js", "Express Js", "MongoDB", "Socket.io"],
-    developer: "Ali Husnain",
-    image: "/project5.png",
-    githubLink: "https://github.com/hammadArshad0/FitZone_Gym_app",
-    liveLink: "https://codask.netlify.app/",
+    title: "Emer Visa Center",
+    description: "A professional portal for Emer Visa Center office, helping people secure visas for different countries and manage international travel documentation.",
+    techStack: ["Next Js", "Tailwind CSS", "MongoDB"],
+    developer: "Hammad Arshad",
+    image: "/emar.png",
+    githubLink: "https://github.com/hammadArshad0",
+    liveLink: "#",
     category: "Fullstack",
   },
   {
     id: 5,
     title: "My Portfolio",
-    description:
-      "Personal portfolio to showcase projects, skills, and contact info, built with Gatsby and content managed via Contentful.",
+    description: "Personal portfolio to showcase projects and skills, built with Next Js and Framer Motion.",
     techStack: ["Next Js", "Tailwind CSS", "Framer Motion"],
     developer: "Hammad Arshad",
-    image: "/project7.png",
+    image: "/profile.png",
     githubLink: "https://github.com/hammadArshad0/portfolio",
     liveLink: "#",
     category: "Frontend",
@@ -69,7 +66,7 @@ export const projectsData = [
   {
     id: 6,
     title: "Movies App",
-    description: "A modern movie discovery application built with Next.js that fetches real-time data from the TMDB API. The app allows users to explore trending, latest, and top-rated movies with rich details including posters, ratings, genres, and descriptions. It features a responsive design for seamless use across devices, smooth navigation powered by Next.js routing, and optimized performance with server-side rendering.",
+    description: "A modern movie discovery application built with Next.js that fetches real-time data from the TMDB API.",
     techStack: ["Next Js", "Tailwind CSS", "TMDB API"],
     developer: "Hammad Arshad",
     image: "/project8.png",
@@ -77,326 +74,177 @@ export const projectsData = [
     liveLink: "https://ghost-movies-app.vercel.app",
     category: "Frontend",
   },
-  {
-    id: 7,
-    title: "VendorBay",
-    description: "VendorBay is a responsive multi-vendor e-commerce platform where users can shop and sellers manage their shops. It features lazy loading and React Suspense for performance, image compression with Sharp, and backend pagination. Admins manage users, sellers, and products with full control.",
-    techStack: ["React Js", "CSS", "Node Js", "Express Js", "MongoDB"],
-    developer: "Hammad Arshad",
-    image: "/project6.png",
-    githubLink: "https://github.com/hammadArshad0",
-    liveLink: "https://vendorbay1.netlify.app/",
-    category: "Frontend",
-  },
 ];
 
-const categories = ["All", "Frontend", "Backend", "Fullstack"];
+const categories = [
+  { name: "All", icon: <Layers size={14} /> },
+  { name: "Frontend", icon: <Layout size={14} /> },
+  { name: "Fullstack", icon: <Database size={14} /> },
+];
 
 const ProjectsSection = () => {
   const [activeCategory, setActiveCategory] = useState("All");
-  const [isVisible, setIsVisible] = useState(false);
   const router = useRouter();
 
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
+  // Signature Brand Color Shift
+  const colorShift = {
+    animate: {
+      color: ["#ff0055", "#00dfd8", "#7000ff", "#ff0055"],
+      transition: { duration: 8, repeat: Infinity, ease: "linear" }
+    }
+  };
 
   const filteredProjects =
     activeCategory === "All"
       ? projectsData.slice(0, 6)
       : projectsData.filter((p) => p.category === activeCategory).slice(0, 6);
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { 
-      opacity: 0, 
-      y: 50,
-      scale: 0.9 
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 15,
-      },
-    },
-  };
-
-  const categoryButtonVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: { 
-      opacity: 1, 
-      scale: 1,
-      transition: {
-        type: "spring",
-        stiffness: 150,
-        damping: 10,
-      }
-    },
-    hover: {
-      scale: 1.05,
-      y: -2,
-      transition: {
-        type: "spring",
-        stiffness: 400,
-        damping: 10,
-      },
-    },
-    tap: {
-      scale: 0.95,
-    },
-  };
-
-  const titleVariants = {
-    hidden: { 
-      opacity: 0, 
-      y: -50,
-      rotateX: -90 
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      rotateX: 0,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 20,
-        duration: 0.8,
-      },
-    },
-  };
-
   return (
-    <motion.section
-      id="projects"
-      className="relative overflow-hidden px-8 lg:px-16 py-24 sm:py-32 bg-[var(--color-bg-secondary)]"
-    >
-      {/* Animated Background Elements */}
-      <motion.div
-        className="absolute top-0 left-0 w-96 h-96 bg-[var(--color-accent)]/5 rounded-full blur-3xl"
-        animate={{
-          x: [0, 100, 0],
-          y: [0, -50, 0],
-          scale: [1, 1.2, 1],
-        }}
-        transition={{
-          duration: 20,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      />
-      <motion.div
-        className="absolute bottom-0 right-0 w-80 h-80 bg-[var(--color-accent)]/5 rounded-full blur-3xl"
-        animate={{
-          x: [0, -80, 0],
-          y: [0, 30, 0],
-          scale: [1, 0.8, 1],
-        }}
-        transition={{
-          duration: 15,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 2,
-        }}
-      />
-
-      <div className="max-w-6xl mx-auto text-center relative z-10">
-        <motion.div
-          variants={titleVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-          className="mb-16"
-        >
-          <motion.h2
-            className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[var(--color-text-primary)] inline-block relative mb-4"
-            whileHover={{
-              scale: 1.05,
+    <section id="projects" className="relative bg-[#050505] py-24 lg:py-32 px-6 overflow-hidden select-none">
+      
+      {/* Balloon-Type Floating Particles */}
+      <div className="absolute inset-0 pointer-events-none">
+        {[...Array(30)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute rounded-full bg-white opacity-20 blur-[1px]"
+            style={{
+              width: Math.random() * 12 + 4,
+              height: Math.random() * 12 + 4,
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 110}%`,
             }}
-          >
-            My Projects
-            <motion.span
-              className="absolute left-0 -bottom-2 h-1 bg-[var(--color-accent)] rounded-full"
-              initial={{ width: 0 }}
-              whileInView={{ width: "100%" }}
-              transition={{ duration: 1, delay: 0.5 }}
-            />
-          </motion.h2>
-          <motion.p
-            className="text-lg text-[var(--color-text-secondary)] mt-4 max-w-2xl mx-auto"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-          >
-            Discover my journey through code, creativity, and innovation
-          </motion.p>
-        </motion.div>
+            animate={{
+              y: ["0vh", "-110vh"],
+              x: [0, Math.random() * 60 - 30, 0],
+              opacity: [0, 0.3, 0.3, 0],
+              scale: [0.8, 1.2, 0.8],
+            }}
+            transition={{
+              duration: Math.random() * 15 + 10,
+              repeat: Infinity,
+              ease: "linear",
+              delay: Math.random() * 10,
+            }}
+          />
+        ))}
+      </div>
 
-        {/* Enhanced Filter Buttons */}
-        <motion.div
-          className="flex justify-center gap-2 sm:gap-4 mb-12 flex-wrap"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-        >
-          {categories.map((cat, index) => (
-            <motion.button
-              key={cat}
-              variants={categoryButtonVariants}
-              whileHover="hover"
-              whileTap="tap"
-              onClick={() => setActiveCategory(cat)}
-              className={`relative px-4 sm:px-6 py-2 sm:py-3 rounded-full font-semibold text-sm sm:text-base transition-all duration-300 overflow-hidden group ${
-                activeCategory === cat
-                  ? "bg-[var(--color-accent)] text-[var(--color-bg-primary)] shadow-lg shadow-[var(--color-accent)]/20"
-                  : "bg-[var(--color-bg-card)] backdrop-blur-sm text-[var(--color-text-primary)] hover:bg-[var(--color-bg-card-hover)] border border-[var(--color-border)]"
-              }`}
+      <div className="max-w-7xl mx-auto relative z-10">
+        
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-10">
+          <motion.div 
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <motion.div 
+               variants={colorShift}
+               animate="animate"
+               className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-current bg-white/5 mb-6 shadow-[0_0_15px_rgba(255,0,85,0.05)]"
             >
-              {/* Hover gradient background */}
-              <motion.span
-                className="absolute inset-0 bg-[var(--color-accent)] opacity-0 group-hover:opacity-10"
-                initial={{ x: "-100%" }}
-                whileHover={{ x: 0 }}
-                transition={{ duration: 0.3 }}
-              />
-              
-              {/* Active category background */}
-              {activeCategory === cat && (
-                <motion.div
-                  className="absolute inset-0 bg-[var(--color-accent)]"
-                  layoutId="activeCategory"
-                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                />
-              )}
-              
-              {/* Category text */}
-              <span className="relative z-20">{cat}</span>
-            </motion.button>
-          ))}
-        </motion.div>
+              <Sparkles size={14} />
+              <span className="text-[10px] uppercase tracking-[0.4em] font-black">Innovative Solutions</span>
+            </motion.div>
 
-        {/* Enhanced Projects Grid with stagger animation */}
+            <h2 className="text-5xl md:text-6xl font-black text-white leading-[0.9] tracking-tighter">
+              MY LATEST  <br />
+              <motion.span 
+                variants={colorShift}
+                animate="animate"
+                className="italic text-transparent bg-clip-text bg-gradient-to-r from-current to-white/30"
+              >
+                Project WORKS.
+              </motion.span>
+            </h2>
+          </motion.div>
+
+          {/* Category Selector */}
+          <div className="flex bg-white/5 p-2 rounded-2xl border border-white/10 backdrop-blur-2xl">
+            {categories.map((cat) => (
+              <button
+                key={cat.name}
+                onClick={() => setActiveCategory(cat.name)}
+                className={`relative flex items-center gap-2 px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all z-10 ${
+                  activeCategory === cat.name ? "text-black" : "text-gray-400 hover:text-white"
+                }`}
+              >
+                {activeCategory === cat.name && (
+                  <motion.div
+                    layoutId="active-pill-projects"
+                    className="absolute inset-0 bg-white rounded-xl -z-10 shadow-lg"
+                    transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                  />
+                )}
+                {cat.icon}
+                {cat.name}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Projects Grid */}
         <AnimatePresence mode="wait">
           <motion.div
             key={activeCategory}
-            className="flex flex-wrap justify-center gap-8"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            exit={{ opacity: 0, scale: 0.9 }}
-            transition={{ duration: 0.3 }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -30 }}
+            transition={{ duration: 0.5 }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
-            {filteredProjects.map((project, i) => (
+            {filteredProjects.map((project) => (
               <motion.div
-                key={`${activeCategory}-${project.id}`}
-                variants={itemVariants}
-                whileHover={{
-                  y: -10,
-                  scale: 1.02,
-                  transition: {
-                    type: "spring",
-                    stiffness: 300,
-                    damping: 20,
-                  },
-                }}
-                className="group"
+                key={project.id}
+                whileHover={{ y: -12, rotateX: 2, rotateY: -2 }}
+                className="group relative perspective-1000"
               >
-                <ProjectCard project={project} />
+                <motion.div 
+                  animate={{ 
+                    boxShadow: [
+                      "0 0 20px rgba(255, 0, 85, 0.1)",
+                      "0 0 40px rgba(0, 223, 216, 0.2)",
+                      "0 0 20px rgba(112, 0, 255, 0.1)",
+                      "0 0 20px rgba(255, 0, 85, 0.1)"
+                    ]
+                  }}
+                  transition={{ duration: 8, repeat: Infinity }}
+                  className="absolute -inset-1 rounded-[2.5rem] opacity-0 group-hover:opacity-100 transition duration-500"
+                />
+                
+                <div className="relative bg-[#0a0a0a] border border-white/10 rounded-[2.5rem] overflow-hidden p-3 h-full flex flex-col hover:border-white/30 transition-all duration-500 shadow-2xl">
+                  {/* Title and Button Theme integration is inside the Card component */}
+                  <ProjectCard project={project} />
+                </div>
               </motion.div>
             ))}
           </motion.div>
         </AnimatePresence>
 
-        {/* Enhanced Show All Projects Button */}
-        {projectsData.length > 6 && (
-          <motion.div
-            className="mt-16"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            viewport={{ once: true }}
+        {/* Bottom CTA */}
+        <div className="mt-28 flex flex-col items-center gap-6">
+          <motion.button
+            onClick={() => router.push("/projects")}
+            whileHover={{ scale: 1.05, y: -5 }}
+            whileTap={{ scale: 0.95 }}
+            className="group relative flex items-center gap-4 px-8 py-4 bg-white text-black font-black rounded-full text-xs uppercase tracking-[0.3em] overflow-hidden shadow-[0_20px_50px_rgba(255,255,255,0.1)] transition-all"
           >
-            <motion.button
-              onClick={() => router.push("/projects")}
-              className="relative px-8 py-4 bg-[var(--color-accent)] text-[var(--color-bg-primary)] font-bold rounded-full text-lg overflow-hidden group shadow-xl shadow-[var(--color-accent)]/20"
-              whileHover={{
-                scale: 1.05,
-              }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            >
-              <motion.div
-                className="absolute inset-0 bg-[var(--color-bg-primary)] opacity-0 group-hover:opacity-10"
-                transition={{ duration: 0.3 }}
-              />
-              <motion.span
-                className="relative z-10 group-hover:text-[var(--color-accent)] transition-colors duration-300"
-                animate={{
-                  backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              >
-                View All Projects
-              </motion.span>
-              
-              {/* Ripple effect */}
-              <motion.div
-                className="absolute inset-0 rounded-full"
-                whileHover={{
-                  background: "radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%)",
-                }}
-                transition={{ duration: 0.3 }}
-              />
-            </motion.button>
-          </motion.div>
-        )}
+            Explore Full Archive
+            <div className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center group-hover:rotate-45 transition-transform duration-300">
+              <ArrowRight size={20} />
+            </div>
+          </motion.button>
+          <p className="text-gray-600 text-[10px] font-bold uppercase tracking-[0.5em]">Developed by Hammad Arshad</p>
+        </div>
 
-        {/* Floating Elements */}
-        <motion.div
-          className="absolute top-20 right-10 w-6 h-6 bg-[var(--color-accent)] rounded-full opacity-60"
-          animate={{
-            y: [0, -20, 0],
-            scale: [1, 1.2, 1],
-          }}
-          transition={{
-            duration: 4,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-        <motion.div
-          className="absolute bottom-20 left-10 w-4 h-4 bg-[var(--color-accent)] rounded-full opacity-20"
-          animate={{
-            y: [0, 15, 0],
-            x: [0, 10, 0],
-          }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 1,
-          }}
-        />
       </div>
-    </motion.section>
+
+      {/* Decorative Watermark */}
+      <div className="absolute top-1/2 left-[-8%] opacity-[0.01] select-none pointer-events-none -rotate-90">
+        <h3 className="text-[18rem] font-black leading-none">HAMMAD</h3>
+      </div>
+    </section>
   );
 };
 

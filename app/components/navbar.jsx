@@ -1,326 +1,210 @@
 "use client";
 import { useEffect, useState, useCallback, useRef } from "react";
-import { Menu, X, Home, User, Mail, Send, Laptop, FolderKanban } from "lucide-react";
+import { Menu, X, Home, User, Mail, Send, Laptop, FolderKanban, Sparkles, Zap } from "lucide-react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import ThemeToggle from "./ThemeToggle";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [active, setActive] = useState("Home");
   const [scrolled, setScrolled] = useState(false);
-  const [isScrollingDown, setIsScrollingDown] = useState(false);
-  const [lastScrollY, setLastScrollY] = useState(0);
   const [isClient, setIsClient] = useState(false);
   
   const router = useRouter();
   const pathname = usePathname();
-  const sidebarRef = useRef(null);
-  const timeoutRef = useRef(null);
 
-  // Handle hydration
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+  // Hammad Arshad Signature Color Shift
+  const colorShift = {
+    animate: {
+      color: ["#ff0055", "#00dfd8", "#7000ff", "#ff0055"],
+      transition: { duration: 8, repeat: Infinity, ease: "linear" }
+    },
+    bg: {
+      backgroundColor: ["#ff0055", "#00dfd8", "#7000ff", "#ff0055"],
+      transition: { duration: 8, repeat: Infinity, ease: "linear" }
+    }
+  };
 
-  // Update active state based on current pathname
+  useEffect(() => { setIsClient(true); }, []);
+
   useEffect(() => {
     if (!isClient) return;
-    
-    const currentPath = pathname || "/";
-    if (currentPath === "/") {
-      setActive("Home");
-    } else if (currentPath.startsWith("/about")) {
-      setActive("About");
-    } else if (currentPath.startsWith("/projects")) {
-      setActive("Projects");
-    } else if (currentPath.startsWith("/contact")) {
-      setActive("Contact");
-    }
+    const paths = { "/": "Home", "/about": "About", "/projects": "Projects", "/contact": "Contact" };
+    const currentPath = Object.keys(paths).find(p => pathname === p || pathname?.startsWith(p + "/"));
+    setActive(paths[currentPath] || "Home");
   }, [pathname, isClient]);
 
-  // Enhanced scroll handler with debouncing and hide/show functionality
+  // Fixed scroll logic: Sirf background change hoga, nav gayab nahi hoga
   const handleScroll = useCallback(() => {
     if (!isClient) return;
-    
-    const currentScrollY = window.scrollY;
-    
-    // Clear existing timeout
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-    
-    // Debounce scroll updates
-    timeoutRef.current = setTimeout(() => {
-      setScrolled(currentScrollY > 50);
-      
-      // Hide navbar when scrolling down, show when scrolling up
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        setIsScrollingDown(true);
-      } else {
-        setIsScrollingDown(false);
-      }
-      
-      setLastScrollY(currentScrollY);
-    }, 10);
-  }, [lastScrollY, isClient]);
+    setScrolled(window.scrollY > 20);
+  }, [isClient]);
 
   useEffect(() => {
     if (!isClient) return;
-    
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll, isClient]);
 
-  // Close sidebar when clicking outside
-  useEffect(() => {
-    if (!isClient) return;
-    
-    const handleClickOutside = (event) => {
-      if (sidebarRef.current && !sidebarRef.current.contains(event.target) && isOpen) {
-        setIsOpen(false);
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-      document.addEventListener("touchstart", handleClickOutside);
-      // Prevent body scroll when sidebar is open
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("touchstart", handleClickOutside);
-      document.body.style.overflow = "unset";
-    };
-  }, [isOpen, isClient]);
-
-  // Close sidebar on route change
-  useEffect(() => {
-    setIsOpen(false);
-  }, [pathname]);
-
-  // Handle keyboard navigation
-  useEffect(() => {
-    if (!isClient) return;
-    
-    const handleKeyDown = (event) => {
-      if (event.key === "Escape" && isOpen) {
-        setIsOpen(false);
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener("keydown", handleKeyDown);
-    }
-
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [isOpen, isClient]);
-
-  // Prevent render on server-side to avoid hydration issues
-  if (!isClient) {
-    return null;
-  }
+  if (!isClient) return null;
 
   const links = [
-    { name: "Home", icon: <Home size={18} />, href: "/" },
-    { name: "About", icon: <User size={18} />, href: "/about" },
-    { name: "Projects", icon: <FolderKanban size={18} />, href: "/projects" },
-    { name: "Contact", icon: <Mail size={18} />, href: "/contact" },
+    { name: "Home", icon: <Home size={16} />, href: "/" },
+    { name: "About", icon: <User size={16} />, href: "/about" },
+    { name: "Projects", icon: <FolderKanban size={16} />, href: "/projects" },
+    { name: "Contact", icon: <Mail size={16} />, href: "/contact" },
   ];
 
   const handleLinkClick = (linkName, href) => {
     setActive(linkName);
     setIsOpen(false);
-    
-    // Add a small delay to allow for smooth transitions
-    setTimeout(() => {
-      router.push(href);
-    }, 100);
-  };
-
-  const handleLogoClick = () => {
-    setActive("Home");
-    router.push("/");
-  };
-
-  const handleContactClick = (e) => {
-    e.preventDefault();
-    setActive("Contact");
-    setIsOpen(false);
-    setTimeout(() => {
-      router.push("/contact");
-    }, 100);
+    router.push(href);
   };
 
   return (
     <>
-      {/* Backdrop overlay for mobile sidebar */}
-      {isOpen && (
-        <div 
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
-          onClick={() => setIsOpen(false)}
-          aria-hidden="true"
-        />
-      )}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsOpen(false)}
+            className="fixed inset-0 bg-black/80 backdrop-blur-md z-[60] lg:hidden"
+          />
+        )}
+      </AnimatePresence>
       
-      <nav
-        className={`w-full h-16 sm:h-[72px] md:h-20 flex justify-between items-center px-4 sm:px-6 md:px-8 lg:px-12 fixed top-0 z-50 transition-all duration-300 ${
-          isScrollingDown ? "-translate-y-full" : "translate-y-0"
-        } ${
+      {/* Navbar Fixed at Top */}
+      <nav className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-8 py-6">
+        <div className={`max-w-full mx-auto flex justify-between items-center px-6 py-4 rounded-2xl transition-all duration-500 border ${
           scrolled 
-            ? "bg-[var(--color-bg-navbar)] backdrop-blur-md text-[var(--color-text-primary)] shadow-lg" 
-            : "bg-[var(--color-bg-navbar)] backdrop-blur-md text-[var(--color-text-primary)]"
-        }`}
-        role="navigation"
-        aria-label="Main navigation"
-      >
-        {/* Logo */}
-        <div
-          onClick={handleLogoClick}
-          className="flex items-center gap-1.5 sm:gap-2 text-[var(--color-accent)] font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl cursor-pointer transition-transform hover:scale-105 focus:outline-none rounded-lg p-1"
-          tabIndex={0}
-          role="button"
-          aria-label="Go to homepage"
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              handleLogoClick();
-            }
-          }}
-        >
-          <Laptop className="w-6 h-7 sm:w-7 sm:h-8 md:w-8 md:h-10 flex-shrink-0" aria-hidden="true" />
-          <span>Hammad Arshad</span>
-        </div>
+            ? "bg-black/60 backdrop-blur-2xl border-white/10 shadow-[0_0_40px_rgba(0,0,0,0.5)] scale-[0.98]" 
+            : "bg-transparent border-transparent"
+        }`}>
+          
+          {/* Logo Section */}
+          <div onClick={() => router.push("/")} className="group flex items-center gap-3 cursor-pointer">
+            <motion.div 
+              variants={colorShift}
+              animate="bg"
+              className="p-2.5 rounded-xl text-black shadow-xl transition-transform group-hover:rotate-[15deg] group-hover:scale-110"
+            >
+              <Laptop size={20} strokeWidth={3} />
+            </motion.div>
+            <div className="flex flex-col">
+              <span className="text-1xl font-black tracking-tighter text-white leading-none">
+                HAMMAD<motion.span variants={colorShift} animate="animate">.</motion.span>
+              </span>
+              <span className="text-[12px] uppercase tracking-[0.4em] font-black text-gray-500">FullStack Devolper</span>
+            </div>
+          </div>
 
-        {/* Desktop Menu */}
-        <ul
-          className={`hidden lg:flex gap-4 xl:gap-6 2xl:gap-8 items-center px-4 xl:px-6 2xl:px-8 py-1.5 xl:py-2 rounded-2xl xl:rounded-3xl backdrop-blur-md transition bg-[var(--color-bg-surface)] border border-[var(--color-border)] text-[var(--color-text-primary)]`}
-          role="menubar"
-          aria-label="Desktop navigation menu"
-        >
-          {links.map((link) => (
-            <li key={link.name} role="none">
+          {/* Desktop Nav - Floating Pill */}
+          <div className="hidden lg:flex items-center gap-1 bg-white/[0.03] border border-white/10 p-1 rounded-full backdrop-blur-xl">
+            {links.map((link) => (
               <Link
+                key={link.name}
                 href={link.href}
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleLinkClick(link.name, link.href);
-                }}
-                className={`flex items-center gap-1.5 xl:gap-2 px-2.5 xl:px-3 py-1 rounded-full cursor-pointer transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:ring-opacity-50 text-sm xl:text-base ${
-                  active === link.name
-                    ? "bg-[var(--color-accent)] text-[var(--color-bg-primary)] scale-105"
-                    : "hover:text-[var(--color-accent)] hover:scale-105"
+                onClick={(e) => { e.preventDefault(); handleLinkClick(link.name, link.href); }}
+                className={`relative flex items-center gap-2 px-6 py-2.5 rounded-full text-[11px] font-black uppercase tracking-widest transition-all duration-300 ${
+                  active === link.name ? "text-black" : "text-gray-400 hover:text-white"
                 }`}
-                role="menuitem"
-                aria-current={active === link.name ? "page" : undefined}
               >
-                <span aria-hidden="true" className="w-4 h-4 xl:w-[18px] xl:h-[18px] flex-shrink-0">{link.icon}</span>
-                <span className="whitespace-nowrap">{link.name}</span>
+                {active === link.name && (
+                  <motion.div 
+                    layoutId="nav-pill"
+                    className="absolute inset-0 bg-white rounded-full -z-10 shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+                    transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                  />
+                )}
+                {link.name}
               </Link>
-            </li>
-          ))}
-        </ul>
+            ))}
+          </div>
 
-        {/* Desktop Right Side - Theme Toggle and CTA Button */}
-        <div className="hidden lg:flex items-center gap-3 xl:gap-4">
-          <ThemeToggle />
-          <button
-            onClick={handleContactClick}
-            className="flex items-center gap-1.5 xl:gap-2 px-4 xl:px-5 py-1.5 xl:py-2 rounded-full bg-[var(--color-accent)] text-[var(--color-bg-primary)] font-semibold shadow-lg hover:shadow-[var(--color-accent)]/20 hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:ring-opacity-30 cursor-pointer text-sm xl:text-base whitespace-nowrap"
-            aria-label="Contact me"
-          >
-            <Send size={16} className="xl:w-[18px] xl:h-[18px] flex-shrink-0" aria-hidden="true" />
-            <span>Get in touch</span>
-          </button>
-        </div>
-
-        {/* Mobile Menu Button and Theme Toggle */}
-        <div className="lg:hidden flex items-center gap-1.5 sm:gap-2">
-          <ThemeToggle />
-          <button
-            className="cursor-pointer p-1.5 sm:p-2 rounded-lg transition-colors hover:bg-[var(--color-bg-card-hover)] focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:ring-opacity-30 active:bg-[var(--color-bg-card-hover)]"
-            onClick={() => setIsOpen(true)}
-            aria-label={isOpen ? "Close menu" : "Open menu"}
-            aria-expanded={isOpen}
-            aria-controls="mobile-sidebar"
-          >
-            <Menu
-              size={24}
-              className="sm:w-7 sm:h-7 text-[var(--color-text-primary)]"
-              aria-hidden="true"
-            />
-          </button>
-        </div>
-
-        {/* Mobile Sidebar */}
-        <aside
-          ref={sidebarRef}
-          id="mobile-sidebar"
-          className={`fixed top-0 right-0 h-[100vh] w-[280px] sm:w-72 bg-[var(--color-bg-secondary)] text-[var(--color-text-primary)] transform transition-transform duration-300 z-50 border-l border-[var(--color-border)] ${
-            isOpen ? "translate-x-0" : "translate-x-full"
-          } lg:hidden`}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="mobile-menu-title"
-        >
-          <div className="flex justify-between items-center px-4 sm:px-6 py-4 sm:py-5 border-b border-[var(--color-border)]">
-            <h2 id="mobile-menu-title" className="text-base sm:text-lg font-semibold sr-only">
-              Mobile Navigation Menu
-            </h2>
-            <button
-              onClick={() => setIsOpen(false)}
-              className="cursor-pointer p-2 rounded-lg transition-colors hover:bg-[var(--color-bg-tertiary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:ring-opacity-50 active:bg-[var(--color-bg-tertiary)]"
-              aria-label="Close menu"
+          {/* Action Buttons */}
+          <div className="flex items-center gap-4">
+            <div className="hidden sm:block">
+              <ThemeToggle />
+            </div>
+            
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => router.push("/contact")}
+              className="hidden md:flex items-center gap-3 px-6 py-2.5 bg-white text-black rounded-xl font-black text-[10px] uppercase tracking-widest transition-all shadow-xl hover:shadow-white/10"
             >
-              <X size={24} className="sm:w-7 sm:h-7 text-[var(--color-text-primary)]" aria-hidden="true" />
+              Hire Me
+              <Zap size={14} className="fill-black" />
+            </motion.button>
+
+            <button
+              onClick={() => setIsOpen(true)}
+              className="lg:hidden p-3 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-all"
+            >
+              <Menu size={20} />
             </button>
           </div>
-          
-          <nav role="navigation" aria-label="Mobile navigation">
-            <ul className="flex flex-col gap-4 sm:gap-5 md:gap-6 mt-4 sm:mt-6 px-4 sm:px-6" role="menu">
-              {links.map((link) => (
-                <li key={link.name} role="none">
-                  <button
-                    onClick={() => handleLinkClick(link.name, link.href)}
-                    className={`w-full flex items-center gap-3 px-4 py-2.5 sm:py-3 rounded-full cursor-pointer transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:ring-opacity-30 text-sm sm:text-base active:scale-95 ${
-                      active === link.name
-                        ? "bg-[var(--color-accent)] text-[var(--color-bg-primary)]"
-                        : "hover:text-[var(--color-accent)] hover:bg-[var(--color-bg-tertiary)]"
-                    }`}
-                    role="menuitem"
-                    aria-current={active === link.name ? "page" : undefined}
-                  >
-                    <span aria-hidden="true" className="w-5 h-5 sm:w-[18px] sm:h-[18px] flex-shrink-0">{link.icon}</span>
-                    <span>{link.name}</span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </nav>
-          
-          <div className="px-4 sm:px-6 mt-6 sm:mt-8">
-            <button
-              onClick={handleContactClick}
-              className="w-full flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 sm:py-3 rounded-full bg-[var(--color-accent)] text-[var(--color-bg-primary)] font-semibold shadow-lg hover:shadow-[var(--color-accent)]/20 hover:scale-105 active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:ring-opacity-30 cursor-pointer text-sm sm:text-base"
-              aria-label="Contact me"
-            >
-              <Send size={18} className="flex-shrink-0" aria-hidden="true" />
-              <span>Get in touch</span>
-            </button>
-          </div>
-        </aside>
+        </div>
       </nav>
+
+      {/* Mobile Side Drawer */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.aside 
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+            className="fixed top-0 right-0 h-full w-[85%] sm:w-[400px] bg-black/90 backdrop-blur-2xl z-[70] border-l border-white/10 lg:hidden"
+          >
+            <div className="p-10 flex flex-col h-full">
+              <div className="flex justify-between items-center mb-16">
+                <span className="font-black text-xs text-gray-500 tracking-[0.5em] uppercase">Navigation</span>
+                <button onClick={() => setIsOpen(false)} className="p-3 bg-white/5 rounded-full text-white">
+                  <X size={20} />
+                </button>
+              </div>
+
+              <nav className="space-y-4">
+                {links.map((link) => (
+                  <button
+                    key={link.name}
+                    onClick={() => handleLinkClick(link.name, link.href)}
+                    className={`w-full flex items-center justify-between p-5 rounded-2xl text-xl font-black transition-all ${
+                      active === link.name 
+                      ? "bg-white text-black shadow-2xl" 
+                      : "text-gray-500 hover:text-white hover:bg-white/5"
+                    }`}
+                  >
+                    <div className="flex items-center gap-5">
+                       {link.icon}
+                       <span className="uppercase tracking-tighter">{link.name}</span>
+                    </div>
+                    {active === link.name && <Sparkles size={18} />}
+                  </button>
+                ))}
+              </nav>
+
+              <div className="mt-auto space-y-4">
+                <div className="flex justify-center py-6">
+                   <ThemeToggle />
+                </div>
+                <button 
+                  onClick={() => { router.push("/contact"); setIsOpen(false); }}
+                  className="w-full py-5 bg-white text-black rounded-2xl font-black text-xs uppercase tracking-[0.3em] flex items-center justify-center gap-4 shadow-2xl shadow-white/5"
+                >
+                  Let's Connect
+                  <Send size={16} />
+                </button>
+              </div>
+            </div>
+          </motion.aside>
+        )}
+      </AnimatePresence>
     </>
   );
 };

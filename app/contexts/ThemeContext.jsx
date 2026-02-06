@@ -10,23 +10,25 @@ export function ThemeProvider({ children }) {
 
   useEffect(() => {
     setMounted(true);
-    
-    // Check localStorage first, then system preference
+
+    // Check localStorage first, then default to colorful theme
     const storedTheme = localStorage.getItem("theme");
     if (storedTheme) {
       setTheme(storedTheme);
       document.documentElement.setAttribute("data-theme", storedTheme);
     } else {
-      // Detect system preference
-      const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      const initialTheme = systemPrefersDark ? "dark" : "light";
+      // Default to colorful theme for attractive design
+      const initialTheme = "colorful";
       setTheme(initialTheme);
       document.documentElement.setAttribute("data-theme", initialTheme);
     }
   }, []);
 
   const toggleTheme = () => {
-    const newTheme = theme === "light" ? "dark" : "light";
+    const themes = ["light", "dark", "colorful"];
+    const currentIndex = themes.indexOf(theme);
+    const nextIndex = (currentIndex + 1) % themes.length;
+    const newTheme = themes[nextIndex];
     setTheme(newTheme);
     localStorage.setItem("theme", newTheme);
     document.documentElement.setAttribute("data-theme", newTheme);

@@ -15,43 +15,42 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// --- UPDATED METADATA FOR HAMMAD ARSHAD ---
 export const metadata = {
-  title: "Ali Husnain | Full Stack Developer ",
+  title: "Hammad Arshad | Full Stack Architect", 
   description:
-    "I'm Ali Husnain, a passionate Full Stack Developer specializing in React, Next.js, Tailwind CSS, and the MERN stack. Explore my portfolio, projects, and contact me for collaborations or opportunities.",
+    "I'm Hammad Arshad, a high-performance Full Stack Developer specializing in React, Next.js, Tailwind CSS, and the MERN stack. Explore my portfolio and professional projects.",
   verification: {
     google: "M5Qrow6Ov4lrWUy6Uf2BtSnyyH1kyoe-hOKlzmuBjf4", 
   },
   keywords: [
-    "Ali Husnain",
-    "Ali Husnain Developer",
+    "Hammad Arshad",
+    "Hammad Arshad Developer",
     "Best Developer in Rawalpindi",
-    "Full Stack Developer",
-    "React.js",
-    "Next.js",
-    "Tailwind CSS",
-    "MERN Stack",
-    "Frontend Developer",
-    "Backend Developer",
-    "Web Developer Portfolio",
+    "Full Stack Developer Pakistan",
+    "React.js Expert",
+    "Next.js Architect",
+    "Tailwind CSS Specialist",
+    "MERN Stack Developer",
+    "Hammad Arshad Portfolio",
   ],
-  authors: [{ name: "Ali Husnain" }],
-  creator: "Ali Husnain",
-  publisher: "Ali Husnain",
-  metadataBase: new URL("https://alihusnaindev.vercel.app"),
+  authors: [{ name: "Hammad Arshad" }],
+  creator: "Hammad Arshad",
+  publisher: "Hammad Arshad",
+  metadataBase: new URL("https://hammadarshad.dev"), // Update this with your actual domain later
 
   openGraph: {
-    title: "Ali Husnain | Full Stack Developer Portfolio",
+    title: "Hammad Arshad | Full Stack Developer Portfolio",
     description:
-      "Portfolio of Ali Husnain, Full Stack Developer skilled in React, Next.js, Tailwind CSS, and the MERN stack. View projects, skills, and get in touch.",
-    url: "https://alihusnaindev.vercel.app",
-    siteName: "Ali Husnain Portfolio",
+      "Professional portfolio of Hammad Arshad, showcasing scalable web applications built with Next.js and ASP.NET.",
+    url: "https://hammadarshad.dev",
+    siteName: "Hammad Arshad Portfolio",
     images: [
       {
-        url: "https://alihusnaindev.vercel.app/banner.png",
+        url: "/banner.png", // Make sure this image exists in your public folder
         width: 1200,
         height: 630,
-        alt: "Ali Husnain - Full Stack Developer Portfolio",
+        alt: "Hammad Arshad - Full Stack Developer Portfolio",
       },
     ],
     locale: "en_US",
@@ -59,7 +58,7 @@ export const metadata = {
   },
 
   alternates: {
-    canonical: "https://alihusnaindev.vercel.app",
+    canonical: "https://hammadarshad.dev",
   },
 };
 
